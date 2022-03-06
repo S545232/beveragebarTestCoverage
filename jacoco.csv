@@ -1,0 +1,13 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+beveragebar,edu.banditutorials.beveragebar,Coffee,6,0,0,0,3,0,2,0,2,0
+beveragebar,edu.banditutorials.beveragebar,AbstractBeverage,12,0,0,0,5,0,2,0,2,0
+beveragebar,edu.banditutorials.beveragebar,AppWeb,8,0,0,0,3,0,2,0,2,0
+beveragebar,edu.banditutorials.beveragebar,UtilityBuildCodeIssues,179,0,0,0,44,0,19,0,19,0
+beveragebar,edu.banditutorials.beveragebar,UtilityBuildSwitch,297,0,16,0,67,0,14,0,6,0
+beveragebar,edu.banditutorials.beveragebar,UtilityShowAllEnvVariables,30,0,0,0,10,0,4,0,4,0
+beveragebar,edu.banditutorials.beveragebar,UtilityAuthors,260,0,10,0,64,0,18,0,13,0
+beveragebar,edu.banditutorials.beveragebar,UtilityCheckFiles,206,0,12,0,55,0,16,0,10,0
+beveragebar,edu.banditutorials.beveragebar,AppController,107,0,4,0,32,0,7,0,4,0
+beveragebar,edu.banditutorials.beveragebar,Milk,6,0,0,0,3,0,2,0,2,0
+beveragebar,edu.banditutorials.beveragebar,Tea,6,0,0,0,3,0,2,0,2,0
+beveragebar,edu.banditutorials.beveragebar,App,123,0,12,0,39,0,9,0,2,0

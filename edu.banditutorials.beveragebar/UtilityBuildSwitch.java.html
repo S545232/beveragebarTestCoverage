@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UtilityBuildSwitch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">beveragebar</a> &gt; <a href="index.source.html" class="el_package">edu.banditutorials.beveragebar</a> &gt; <span class="el_source">UtilityBuildSwitch.java</span></div><h1>UtilityBuildSwitch.java</h1><pre class="source lang-java linenums">package edu.banditutorials.beveragebar;
+
+import static edu.banditutorials.beveragebar.UtilityCheckFiles.getFileLines;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
+
+/**
+ * Build our switch statement so we can see all the animals.
+ *
+ * @author Denise Case
+ */
+<span class="nc" id="L20">public class UtilityBuildSwitch {</span>
+
+    private static final String relativePathToPackage = &quot;/src/main/java/edu/banditutorials/beveragebar&quot;;
+    private static final String nonAnimalsFileString = &quot;SOURCE_NON_CUSTOMCLASS_FILES.txt&quot;;
+
+    public static Map&lt;Integer, String&gt; getAllCustomClassMap() {
+
+        // find the files that should be excluded
+<span class="nc" id="L28">        ArrayList&lt;String&gt; ignoreList = getNonCustomClassFiles();</span>
+
+        // process all found files, outputing custom class code
+<span class="nc" id="L31">        File fileFolder = new File(getCustomClassPackagePathString());</span>
+<span class="nc" id="L32">        String[] filesArray = fileFolder.list();</span>
+<span class="nc" id="L33">        Arrays.sort(filesArray);</span>
+
+        // create local variables for n and our map (a data structure)
+<span class="nc" id="L36">        var n = 1;</span>
+        // keep keys in order with TreeMap and be thread safe for deployment
+<span class="nc" id="L38">        var customclassMap = Collections.synchronizedMap(new TreeMap&lt;Integer, String&gt;());</span>
+
+        // process the list and load the map
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        for (String file : filesArray) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if (!ignoreList.contains(file)) {</span>
+<span class="nc" id="L43">                int fileLength = file.length();</span>
+<span class="nc" id="L44">                int lengthExtension = &quot;.java&quot;.length();</span>
+<span class="nc" id="L45">                int fileNameLength = fileLength - lengthExtension;</span>
+<span class="nc" id="L46">                var justName = file.substring(0, fileNameLength);</span>
+<span class="nc" id="L47">                customclassMap.put(n++, justName);</span>
+            }
+        }
+<span class="nc" id="L50">        return customclassMap;</span>
+    }
+
+    public static void main(String args[]) throws IOException {
+
+        // find the files that should be excluded
+<span class="nc" id="L56">        ArrayList&lt;String&gt; ignoreList = getNonCustomClassFiles();</span>
+<span class="nc" id="L57">        System.out.println(&quot;Ignore these:&quot;);</span>
+<span class="nc" id="L58">        ignoreList.forEach(f -&gt; System.out.println(f));</span>
+
+        // process all found files, outputing custom animal code
+<span class="nc" id="L61">        System.out.println(&quot;From all these in the package:&quot;);</span>
+<span class="nc" id="L62">        File fileFolder = new File(getCustomClassPackagePathString());</span>
+<span class="nc" id="L63">        String filesArray[] = fileFolder.list();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        for (String s : filesArray) {</span>
+<span class="nc" id="L65">            System.out.println(s);</span>
+        }
+
+<span class="nc" id="L68">        System.out.println(&quot;===============================&quot;);</span>
+<span class="nc" id="L69">        System.out.println(&quot;Generate Custom Class Switch&quot;);</span>
+<span class="nc" id="L70">        System.out.println(&quot;===============================&quot;);</span>
+<span class="nc" id="L71">        int n = 1;</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        for (String file : filesArray) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (!ignoreList.contains(file)) {</span>
+<span class="nc" id="L74">                int fileLength = file.length();</span>
+<span class="nc" id="L75">                int lengthExtension = &quot;.java&quot;.length();</span>
+<span class="nc" id="L76">                int fileNameLength = fileLength - lengthExtension;</span>
+<span class="nc" id="L77">                var justName = file.substring(0, fileNameLength);</span>
+
+                // we want to output something like this:
+                //case 1 -&gt; {
+                //           var b = new Coffee(&quot;Coffee&quot;);
+                //           var n = b.getName();
+                //           var d = b.getDescription();
+                //           System.out.println(&quot;I'm &quot; + n + &quot;, a &quot; + d + &quot;.&quot;);
+                //        }
+                // use Java 15 Text Blocks
+<span class="nc" id="L87">                System.out.println(&quot;case &quot; + n++ + &quot; -&gt; {&quot;);</span>
+<span class="nc" id="L88">                System.out.println(&quot;var b = new &quot; + justName + &quot;(\&quot;&quot; + justName + &quot;\&quot;);&quot;);</span>
+<span class="nc" id="L89">                String textBlock = &quot;&quot;&quot;</span>
+                           var n = b.getName();
+                           var d = b.getDescription();
+                           System.out.println(&quot;I'm &quot; + n + &quot;, a &quot; + d + &quot;.&quot;); 
+                           &quot;&quot;&quot;;
+<span class="nc" id="L94">                System.out.print(textBlock);</span>
+<span class="nc" id="L95">                System.out.println(&quot;}&quot;);</span>
+            }
+        }
+
+<span class="nc" id="L99">        System.out.println(&quot;===============================&quot;);</span>
+<span class="nc" id="L100">        System.out.println(&quot;Generate Custom Class Menu&quot;);</span>
+<span class="nc" id="L101">        System.out.println(&quot;===============================&quot;);</span>
+<span class="nc" id="L102">        n = 1;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        for (String file : filesArray) {</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            if (!ignoreList.contains(file)) {</span>
+<span class="nc" id="L105">                int fileLength = file.length();</span>
+<span class="nc" id="L106">                int lengthExtension = &quot;.java&quot;.length();</span>
+<span class="nc" id="L107">                int fileNameLength = fileLength - lengthExtension;</span>
+<span class="nc" id="L108">                var justName = file.substring(0, fileNameLength);</span>
+
+                // output something like this 
+                //System.out.println(&quot;1. Coffee&quot;);
+                //System.out.println(&quot;2. Tea&quot;);
+                //System.out.println(&quot;3. Milk&quot;);
+                // write code below.....
+<span class="nc" id="L115">                var numberAndClassName = String.format(&quot;%2d.%-20s&quot;, n, justName);</span>
+<span class="nc" id="L116">                var quote = &quot;\&quot;&quot;;</span>
+<span class="nc" id="L117">                var sOpen = &quot;System.out.print(&quot;;</span>
+<span class="nc" id="L118">                var sOpenLN = &quot;System.out.println(&quot;;</span>
+<span class="nc" id="L119">                var sClose = &quot;);&quot;;</span>
+<span class="nc" id="L120">                var strOut = sOpen + quote + numberAndClassName + quote + sClose;</span>
+<span class="nc" id="L121">                var strOutLN = sOpenLN + quote + numberAndClassName + quote + sClose;</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                var statement = (n % 4 == 0) ? strOutLN : strOut;</span>
+<span class="nc" id="L123">                System.out.println(statement);</span>
+<span class="nc" id="L124">                n++;</span>
+            }
+        }
+<span class="nc" id="L127">        System.out.println(&quot;===============================&quot;);</span>
+<span class="nc" id="L128">        System.out.println(&quot;Update NUMBER_CUSTOM_TYPES = &quot; + --n);</span>
+<span class="nc" id="L129">        System.out.println(&quot;===============================&quot;);</span>
+<span class="nc" id="L130">    }</span>
+
+    /**
+     * Get a list of expected files in the root project directory.
+     *
+     * @return String[] of expected file names
+     */
+    private static ArrayList&lt;String&gt; getNonCustomClassFiles() {
+<span class="nc" id="L138">        return getFileLines(nonAnimalsFileString);</span>
+    }
+
+    /**
+     * Get our project package path as a String.
+     *
+     * @return project package String
+     */
+    private static String getCustomClassPackagePathString() {
+<span class="nc" id="L147">        Path projectPath = Paths.get(&quot;&quot;).toAbsolutePath();</span>
+<span class="nc" id="L148">        String projectPathString = projectPath.normalize().toString() + relativePathToPackage;</span>
+<span class="nc" id="L149">        System.out.println(projectPathString);</span>
+<span class="nc" id="L150">        return projectPathString;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
